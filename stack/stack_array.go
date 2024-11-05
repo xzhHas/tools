@@ -1,47 +1,50 @@
-// stack_array.go
 package stack
 
 import (
 	"errors"
 )
 
-type StackArray struct {
-	elements []any
+// 定义一个泛型栈
+type StackArray[T any] struct {
+	elements []T
 }
 
-func NewStackArray() *StackArray {
-	return &StackArray{}
+// NewStackArray 创建一个空的泛型数组栈
+func NewStackArray[T any]() *StackArray[T] {
+	return &StackArray[T]{}
 }
 
-// Push adds an element to the stack
-func (s *StackArray) Push(value any) {
+// 推入元素
+func (s *StackArray[T]) Push(value T) {
 	s.elements = append(s.elements, value)
 }
 
-// Pop removes and returns the top element from the stack
-func (s *StackArray) Pop() (any, error) {
+// 弹出元素
+func (s *StackArray[T]) Pop() (T, error) {
 	if s.IsEmpty() {
-		return nil, errors.New("stack is empty")
+		var zero T // 返回该类型的零值
+		return zero, errors.New("stack is empty")
 	}
 	top := s.elements[s.Len()-1]
 	s.elements = s.elements[:s.Len()-1]
 	return top, nil
 }
 
-// Peek returns the top element of the stack without removing it
-func (s *StackArray) Peek() (any, error) {
+// 查看栈顶元素
+func (s *StackArray[T]) Peek() (T, error) {
 	if s.IsEmpty() {
-		return nil, errors.New("stack is empty")
+		var zero T // 返回该类型的零值
+		return zero, errors.New("stack is empty")
 	}
 	return s.elements[s.Len()-1], nil
 }
 
-// IsEmpty checks if the stack is empty
-func (s *StackArray) IsEmpty() bool {
+// 判断栈是否为空
+func (s *StackArray[T]) IsEmpty() bool {
 	return len(s.elements) == 0
 }
 
-// Len returns the number of elements in the stack
-func (s *StackArray) Len() int {
+// 获取栈的长度
+func (s *StackArray[T]) Len() int {
 	return len(s.elements)
 }

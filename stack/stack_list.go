@@ -1,4 +1,3 @@
-// stack_list.go
 package stack
 
 import (
@@ -6,38 +5,47 @@ import (
 	"errors"
 )
 
-type StackList struct {
-	list *list.List // 使用 container/list 来实现双向链表
+// 定义一个泛型栈，使用链表作为底层数据结构
+type StackList[T any] struct {
+	list *list.List
 }
 
-func NewStackList() *StackList {
-	return &StackList{list: list.New()}
+// NewStackList 创建一个空的链表栈
+func NewStackList[T any]() *StackList[T] {
+	return &StackList[T]{list: list.New()}
 }
 
-func (s *StackList) Push(value any) {
+// 推入元素
+func (s *StackList[T]) Push(value T) {
 	s.list.PushBack(value)
 }
 
-func (s *StackList) Pop() (any, error) {
+// 弹出元素
+func (s *StackList[T]) Pop() (T, error) {
 	if s.IsEmpty() {
-		return nil, errors.New("stack is empty")
+		var zero T // 返回该类型的零值
+		return zero, errors.New("stack is empty")
 	}
 	element := s.list.Back()
 	s.list.Remove(element)
-	return element.Value, nil
+	return element.Value.(T), nil // 类型断言为 T
 }
 
-func (s *StackList) Peek() (any, error) {
+// 查看栈顶元素
+func (s *StackList[T]) Peek() (T, error) {
 	if s.IsEmpty() {
-		return nil, errors.New("stack is empty")
+		var zero T // 返回该类型的零值
+		return zero, errors.New("stack is empty")
 	}
-	return s.list.Back().Value, nil
+	return s.list.Back().Value.(T), nil // 类型断言为 T
 }
 
-func (s *StackList) IsEmpty() bool {
+// 判断栈是否为空
+func (s *StackList[T]) IsEmpty() bool {
 	return s.list.Len() == 0
 }
 
-func (s *StackList) Len() int {
+// 获取栈的长度
+func (s *StackList[T]) Len() int {
 	return s.list.Len()
 }
