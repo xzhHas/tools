@@ -1,10 +1,15 @@
 # tools
 
-获取代码：
+## go get 获取代码
 
-``go get -u github.com/xzhHas/tools@latest
-``
+```go
+go get -u github.com/xzhHas/tools@latest
+```
 
-## 功能支持
+## v1.0
 
-1、支持stack、queue
+1、支持数组栈、链表栈
+
+2、支持数组队列、链表队列
+
+3、支持大根堆、小根堆
